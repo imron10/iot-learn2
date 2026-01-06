@@ -5,7 +5,7 @@
 const char* ssid = "Imron";
 const char* password = "imron123";
 
-const char* apiUrl = "https://iot-learn1.vercel.app/api/insert";
+const char* apiUrl = "https://iot-learn2.vercel.app/api/insert";
 
 void setup() {
   Serial.begin(115200);
