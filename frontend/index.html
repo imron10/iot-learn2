@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Dashboard by Imron</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<script>
+    async function fetchData() {
+        try {
+            const response = await fetch('api/read.js');
+            if (!response.ok) {
+                throw new Error('Gagal fetch data');
+                const data = await response.json();
+                document.getElementById('temperature').textContent = data.temperature;
+                document.getElementById('humidity').textContent = data.humidity;
+                document.getElementById('status').textContent = data.status;
+                document.getElementById('timestamp').textContent = data.timestamp;
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            document.getElementById('temperature').textContent = 'Error';
+            document.getElementById('humidity').textContent = 'Error';
+            document.getElementById('status').textContent = 'Error';
+            document.getElementById('timestamp').textContent = 'N/A';
+        }
+    }
+    setInterval(fetchData, 1000);
+    fetchData();
+</script>
+<body class="text-gray-100">
+    <div class="min-h-screen flex items-center justify-center p-4"> <div class="w-full max-w-6x1 rounded-2x1 overflow-hidden flex flex-col md:flex-row shadow-x1 bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700/50">
+
+        <!-- Sidebar -->
+        <aside class="p-6 w-full md:w-64 flex-shrink-0 border-r border-gray-700/50">
+            <div class="flex items-center space-x-3 mb-10">
+                <div class="p-3 bg-green-500/10 rounded-x1">
+                    <i class="fas fa-heart text-green-400 text-x1"></i>
+                </div>
+                <h2 class="text-x1 font-bold text-white">IoT <span class="text-green-400">Dash</span>
+                </h2>
+            </div>
+
+            <nav class="space-y-2">
+                <a href="#" class="doy-pill active flex items-center space-x-3 px-4 py-3 rounded-lg text-white">
+                    <i class="fas fa-fire text-green-400 w-5"></i>
+                    <span>Live Data</span>
+                    <span class="ml-auto text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded-full doy-badge">Hot</span>
+                </a>
+                <a href="#" class="doy-pill flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white">
+                    <i class="fas fa-cogs w-5"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="doy-pill flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span>History</span>
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-8">
+                <div class="text-xs text-gray-400 text-center"> Crafted with <i class="fas fa-heart text-red-400 mx-1"></i> by 
+                <span class="signature">Imron</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-8">
+            <!-- Header -->
+             <header class="mb-8">
+                <h1 class="text-2x1 md:text-3x1 font-bold text-white"> Welcome to <span class="text-green-400">Your IoT Dashboard</span>
+                </h1>
+                <p class="text-gray-400 mt-2">
+                    Monitor and manage your IoT devices in real-time with ease • Made with ❤️ by Imron.
+                </p>
+             </header>
+
+             <!-- Cards -->
+              <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- Temperature Card -->
+                 <div class="doy-card rounded-x1 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-medium text-gray-400">
+                            <i class="fas fa-thermometer-half text-red-400" mr-2></i>
+                            TEMPERATURE
+                        </h2>
+                        <i class="fas fa-sync-alt text-gray-500 animate-spin" id="temp-loading"></i>
+                    </div>
+                    <p id="temperature" class="text-4x1 font-bold text-white mb-1">24.5°C</p>
+                    <p class="text-xs text-gray-400">
+                        <i class="far fa-clock mr-1"></i>
+                        Updated: <span id="timestamp">Just now</span>
+                    </p>
+                 </div>
+                <!-- Humidity Card -->
+                 <div class="doy-card rounded-x1 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-medium text-gray-400">
+                            <i class="fas fa-tint text-blue-400" mr-2></i>
+                            HUMIDITY
+                        </h2>
+                        <span class="text-xs bg-blue-900/30 text-blue-400 px-2 py-1 rounded-full">Stable</span>
+                    </div>
+                    <p id="humidity" class="text-4x1 font-bold text-white mb-1">55%</p>
+                    <p class="text-xs text-gray-400">
+                        <i class="far fa-info-circle mr-1"></i>
+                        Ideal range: 40% - 70%
+                    </p>
+                </div>
+                <!-- Status Card -->
+                 <div class="doy-card rounded-x1 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-medium text-gray-400">
+                            <i class="fas fa-wifi text-yellow-400" mr-2></i>
+                            STATUS
+                        </h2>
+                        <span class="text-xs bg-yellow-900/30 text-yellow-400 px-2 py-1 rounded-full">Online</span>
+                    </div>
+                    <p id="status" class="text-4x1 font-bold text-white mb-1">Connected</p>
+                    <p class="text-xs text-gray-400">
+                        <i class="far fa-clock mr-1"></i>
+                        Last updated: <span id="status-timestamp">Just now</span>
+                    </p>
+                </div>
+
+                <!-- Status Card -->
+                 <div class="doy-card rounded-x1 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-sm font-medium text-gray-400">
+                            <i class="fas fa-plug text-green-400 mr-2"></i>
+                            DEVICE STATUS
+                        </h2>
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                            <span class="text-xs text-green-400">Online</span>
+                        </div>
+                    </div>
+                    <p class="text-x1 font-bold text-white">ESP32</p>
+                    <p class="text-xs text-gray-400 mt-1">
+                        <i class="fas fa-code-branch mr-1"></i>
+                        Firmware: v2.1.8
+                    </p>
+                 </div>
+              </section>
+              <!-- Signature Section -->
+              <div class="mt-10 pt-6 border-t border-gray-700/30 text-center">
+                <p class="text-xs text-gray-500">© This dashboard was carefully crafted by <span class="signature">@Imron</span> * Not just code, but <i class="fas fa-heart text-red-400 mx-1"></i> passion
+                </p>
+              </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
